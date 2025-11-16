@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Hub - Test Tube</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #7f5af0 0, #2cb67d 45%, #141414 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      max-width: 1400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .card {
+      background: #ffffff;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      padding: 28px 34px 34px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .card::-webkit-scrollbar {
+      width: 8px;
+    }
+    .card::-webkit-scrollbar-thumb {
+      background: #c4c4c4;
+      border-radius: 4px;
+    }
+
+    /* LOGO (for welcome + sign in) */
+    .logo-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7f5af0, #2cb67d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      color: #ffffff;
+      font-size: 1.8rem;
+      font-weight: bold;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .logo-subtext {
+      color: #111827;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* WELCOME SCREEN */
+    .welcome-container {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .welcome-container h1 {
+      font-size: 2.3rem;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+
+    .welcome-container p {
+      font-size: 1rem;
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    .get-started-btn {
+      margin-top: 10px;
+      padding: 12px 34px;
+      border-radius: 999px;
+      border: none;
+      background: #111827;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .get-started-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    }
+
+    .welcome-small {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    /* SIGN-IN */
+    .signin-container {
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .signin-container h1 {
+      font-size: 2rem;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+
+    .signin-container p {
+      font-size: 0.95rem;
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      color: #374151;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 0.95rem;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #7f5af0;
+      box-shadow: 0 0 0 2px rgba(127, 90, 240, 0.25);
+    }
+
+    .signin-btn {
+      margin-top: 8px;
+      width: 100%;
+      padding: 11px 20px;
+      border-radius: 999px;
+      border: none;
+      background: #7f5af0;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .signin-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(127, 90, 240, 0.5);
+    }
+
+    .signin-error {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #b91c1c;
+      min-height: 16px;
+    }
+
+    .signin-note {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    /* MAIN APP */
+    .app-container {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .app-header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .app-header h1 {
+      font-size: 2.3rem;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+
+    .app-header p {
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+
+    .app-header span.app-name {
+      font-weight: bold;
+      color: #2cb67d;
+    }
+
+    .student-info {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #374151;
+      margin-top: 6px;
+    }
+
+    /* CORRECTION / SOLUTION SHEET */
+    .correction-sheet {
+      margin-top: 12px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 10px 14px;
+    }
+
+    .correction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .correction-header h2 {
+      font-size: 1rem;
+      color: #111827;
+    }
+
+    .correction-header span {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .correction-list {
+      max-height: 140px;
+      overflow-y: auto;
+      font-size: 0.87rem;
+    }
+
+    .correction-item {
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #e5e7eb;
+    }
+
+    .correction-item:last-child {
+      border-bottom: none;
+    }
+
+    .correction-question {
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .correction-answer {
+      color: #166534;
+    }
+
+    .correction-note {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    /* TOP NAV BAR */
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 14px 0;
+    }
+
+    .top-nav button {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .top-nav button:hover {
+      background: #e5e7eb;
+      transform: translateY(-1px);
+    }
+
+    .top-nav button.active-nav {
+      background: #111827;
+      color: #ffffff;
+      border-color: #111827;
+    }
+
+    /* Category box (subjects) */
+    .category-box {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0 8px;
+      flex-wrap: wrap;
+    }
+
+    .category-btn {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 2px solid #7f5af0;
+      color: #7f5af0;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      text-align: center;
+      min-width: 130px;
+      background: #ffffff;
+    }
+
+    .category-btn:hover {
+      background: #7f5af0;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .category-btn.active {
+      background: #7f5af0;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(127, 90, 240, 0.5);
+    }
+
+    .note {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 15px;
+    }
+
+    .subject-title {
+      text-align: center;
+      margin: 18px 0 12px;
+      font-size: 1.5rem;
+      color: #111827;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 18px;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 11px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: #f3f4f6;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .question-cell {
+      width: 48%;
+    }
+
+    .options-cell ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .options-cell li {
+      margin-bottom: 4px;
+    }
+
+    .options-cell input[type="radio"] {
+      margin-right: 6px;
+    }
+
+    .submit-btn {
+      margin: 10px auto 0;
+      display: block;
+      padding: 10px 24px;
+      border-radius: 999px;
+      border: none;
+      background: #2cb67d;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.98rem;
+      transition: all 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .score-box {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f5f0ff;
+      border: 1px solid #7f5af0;
+      text-align: center;
+      font-size: 0.92rem;
+      color: #322659;
+    }
+
+    .score-box.win {
+      background: #ecfdf3;
+      border-color: #22c55e;
+      color: #166534;
+    }
+
+    .score-box.lose {
+      background: #fef2f2;
+      border-color: #f97373;
+      color: #b91c1c;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 10px;
+    }
+
+    /* Leaderboard */
+    .leaderboard-table th,
+    .leaderboard-table td {
+      text-align: center;
+    }
+
+    /* Calculator */
+    .calc-container {
+      max-width: 260px;
+      margin: 0 auto;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .calc-display {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      text-align: right;
+    }
+
+    .calc-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .calc-buttons button {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .calc-buttons button:hover {
+      background: #e5e7eb;
+      transform: translateY(-1px);
+    }
+
+    /* Dictionary */
+    .dictionary-container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .dictionary-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .dictionary-row input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+
+    .dictionary-row button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #7f5af0;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .dictionary-result {
+      min-height: 40px;
+      font-size: 0.9rem;
+      color: #111827;
+    }
+
+    .dictionary-hint {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    /* Music */
+    .music-container {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .music-container p {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+
+    .music-controls {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .music-controls button {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #111827;
+      color: #ffffff;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .music-controls button:hover {
+      background: #4b5563;
+    }
+
+    @media (max-width: 900px) {
+      .card {
+        padding: 20px 16px 24px;
+      }
+      .app-header h1 {
+        font-size: 1.9rem;
+      }
+      th, td {
+        font-size: 0.85rem;
+      }
+      .dictionary-row {
+        flex-direction: column;
+      }
+      .dictionary-row button {
+        width: 100%;
+      }
+      .form-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- WELCOME SCREEN -->
+    <div class="card" id="welcome-screen">
+      <div class="welcome-container">
+        <div class="logo-circle">TH</div>
+        <div class="logo-subtext">TEST HUB · TEST TUBE</div>
+        <h1>Test Hub</h1>
+        <p>Welcome to <strong>Test Tube</strong> – your mini science world with quizzes, calculator, music and more.</p>
+        <button class="get-started-btn" id="get-started-btn">Get Started</button>
+        <p class="welcome-small">Click "Get Started" to sign in offline and enter the main page.</p>
+      </div>
+    </div>
+
+    <!-- SIGN-IN (OFFLINE) -->
+    <div class="card hidden" id="signin-screen">
+      <div class="signin-container">
+        <div class="logo-circle">TH</div>
+        <div class="logo-subtext">TEST HUB · TEST TUBE</div>
+
+        <h1>Sign In</h1>
+        <p>Enter your details to use Test Hub on this device (offline only).</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="student-name">Full Name</label>
+            <input type="text" id="student-name" placeholder="Enter your full name" />
+          </div>
+          <div class="form-group">
+            <label for="student-class">Class / Grade</label>
+            <input type="text" id="student-class" placeholder="e.g. JSS 2, Grade 8" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="student-email">Email (offline only)</label>
+          <input type="email" id="student-email" placeholder="example@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="student-password">Password (for this device only)</label>
+          <input type="password" id="student-password" placeholder="Create a simple password" />
+        </div>
+
+        <button class="signin-btn" id="signin-btn">Enter Test Hub</button>
+        <div class="signin-error" id="signin-error"></div>
+        <p class="signin-note">
+          This sign in is offline. Your details stay on this computer only and are not sent anywhere.
+        </p>
+      </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="card hidden" id="app">
+      <div class="app-container">
+        <header class="app-header">
+          <h1>Test Hub</h1>
+          <p>Welcome to <span class="app-name">Test Tube</span> – choose a subject, answer questions, see your score and corrections.</p>
+          <div class="student-info" id="student-info"></div>
+        </header>
+
+        <!-- CORRECTION / SOLUTION SHEET -->
+        <section class="correction-sheet" id="correction-sheet">
+          <div class="correction-header">
+            <h2>Correction / Solution Sheet</h2>
+            <span>Shows answers for questions you failed in your last quiz</span>
+          </div>
+          <div class="correction-list" id="correction-list">
+            <p class="correction-note">No corrections yet. Take a quiz and any failed questions will appear here with the correct answers.</p>
+          </div>
+        </section>
+
+        <!-- TOP NAV: QUIZ / LEADERBOARD / CALCULATOR / DICTIONARY / MUSIC -->
+        <nav class="top-nav">
+          <button class="active-nav" data-section="quiz-section">Quiz</button>
+          <button data-section="leaderboard-section">Leaderboard</button>
+          <button data-section="calculator-section">Calculator</button>
+          <button data-section="dictionary-section">Dictionary</button>
+          <button data-section="music-section">Music</button>
+        </nav>
+
+        <!-- QUIZ SECTION -->
+        <section id="quiz-section">
+          <div class="category-box">
+            <button class="category-btn active" data-subject="physics">Physics</button>
+            <button class="category-btn" data-subject="chemistry">Chemistry</button>
+            <button class="category-btn" data-subject="biology">Biology</button>
+          </div>
+          <p class="note">
+            Select a subject above, answer all 10 questions and click "Submit Answers" to see your score over 10 (win/lose over 5).
+          </p>
+
+          <h2 class="subject-title" id="subject-title">Physics Quiz</h2>
+
+          <div id="quiz-container"></div>
+
+          <button class="submit-btn" id="submit-quiz-btn">Submit Answers</button>
+          <div id="score-output"></div>
+        </section>
+
+        <!-- LEADERBOARD SECTION -->
+        <section id="leaderboard-section" class="hidden">
+          <h2 class="subject-title">Leaderboard</h2>
+          <p class="note">Top scores saved on this device. Try to beat your best!</p>
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Subject</th>
+                <th>Score / 10</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- CALCULATOR SECTION -->
+        <section id="calculator-section" class="hidden">
+          <h2 class="subject-title">Calculator</h2>
+          <p class="note">Use this simple calculator for your quick maths.</p>
+          <div class="calc-container">
+            <input type="text" id="calc-display" class="calc-display" readonly />
+            <div class="calc-buttons">
+              <button data-val="7">7</button>
+              <button data-val="8">8</button>
+              <button data-val="9">9</button>
+              <button data-val="/">÷</button>
+
+              <button data-val="4">4</button>
+              <button data-val="5">5</button>
+              <button data-val="6">6</button>
+              <button data-val="*">×</button>
+
+              <button data-val="1">1</button>
+              <button data-val="2">2</button>
+              <button data-val="3">3</button>
+              <button data-val="-">−</button>
+
+              <button data-val="0">0</button>
+              <button data-val=".">.</button>
+              <button id="calc-clear">C</button>
+              <button data-val="+">+</button>
+
+              <button style="grid-column: span 4;" id="calc-equal">=</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- DICTIONARY SECTION -->
+        <section id="dictionary-section" class="hidden">
+          <h2 class="subject-title">Offline Science Dictionary</h2>
+          <p class="note">Type a simple science word like "atom", "force", "photosynthesis".</p>
+          <div class="dictionary-container">
+            <div class="dictionary-row">
+              <input type="text" id="dictionary-input" placeholder="Enter a science word..." />
+              <button id="dictionary-search">Search</button>
+            </div>
+            <div class="dictionary-result" id="dictionary-result"></div>
+            <div class="dictionary-hint">
+              This is offline and has only a few key words: atom, force, speed, photosynthesis, cell, energy, gravity, reaction, equilibrium, catalyst.
+            </div>
+          </div>
+        </section>
+
+        <!-- MUSIC SECTION -->
+        <section id="music-section" class="hidden">
+          <h2 class="subject-title">Music Player</h2>
+          <p class="note">Play background music while you use the app. The music will continue even if you move to other sections.</p>
+          <div class="music-container">
+            <p>Click play to start the music, pause to stop. Volume is controlled by your device.</p>
+            <audio id="bg-music" loop>
+              <source src="MUSIC.MP3.mp3" type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+            <div class="music-controls">
+              <button id="play-music">Play</button>
+              <button id="pause-music">Pause</button>
+            </div>
+          </div>
+        </section>
+
+        <p class="footer-note">
+          Test Hub · Test Tube – Offline Science Practice Tool.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ----------------- DATA: QUIZZES -----------------
+    const quizzes = {
+      physics: [
+        {
+          q: "What is the unit of measurement for speed?",
+          options: ["Newton", "Meter per second (m/s)", "Joule", "Kilogram"],
+          answer: 1
+        },
+        {
+          q: "What does a light year represent?",
+          options: ["Time taken by light for one year", "Distance light travels in one year", "Speed of light", "Mass of a star"],
+          answer: 1
+        },
+        {
+          q: "What is the fundamental force of nature that causes objects with mass to attract each other?",
+          options: ["Electromagnetic force", "Nuclear force", "Gravitational force", "Friction"],
+          answer: 2
+        },
+        {
+          q: "What is the smallest unit of matter in an atom?",
+          options: ["Molecule", "Electron", "Proton", "Neutron"],
+          answer: 1
+        },
+        {
+          q: "What is the concept of relativity mainly about?",
+          options: ["How heat moves", "How objects move in a straight line", "How space and time change at high speeds", "How sound travels"],
+          answer: 2
+        },
+        {
+          q: "What is the pressure exerted by a fluid on its container?",
+          options: ["Force per area", "Mass times velocity", "Energy per time", "Volume per second"],
+          answer: 0
+        },
+        {
+          q: "What are the three common states of matter?",
+          options: ["Solid, water, gas", "Solid, liquid, plasma", "Solid, liquid, gas", "Liquid, gas, smoke"],
+          answer: 2
+        },
+        {
+          q: "What is the speed at which sound travels through air (approximately at room temperature)?",
+          options: ["3 m/s", "30 m/s", "300 m/s", "3000 m/s"],
+          answer: 2
+        },
+        {
+          q: "What is the law that describes how light bends when it passes from one medium to another?",
+          options: ["Newton's First Law", "Snell's Law", "Ohm's Law", "Hooke's Law"],
+          answer: 1
+        },
+        {
+          q: "What is absolute zero on the Kelvin scale?",
+          options: ["0 K", "100 K", "273 K", "373 K"],
+          answer: 0
+        }
+      ],
+      chemistry: [
+        {
+          q: "What are the three main states of matter?",
+          options: ["Solid, liquid, gas", "Solid, gas, plasma", "Liquid, gas, smoke", "Solid, liquid, stone"],
+          answer: 0
+        },
+        {
+          q: "What is it called when a substance changes into a different substance?",
+          options: ["Physical change", "Chemical change", "Melting", "Freezing"],
+          answer: 1
+        },
+        {
+          q: "Which law describes how substances react in fixed ratios to form new compounds?",
+          options: ["Law of Gravity", "Law of Definite Proportions", "Hooke's Law", "Boyle's Law"],
+          answer: 1
+        },
+        {
+          q: "What is the process of breaking down complex molecules into simpler ones?",
+          options: ["Synthesis", "Combustion", "Decomposition", "Evaporation"],
+          answer: 2
+        },
+        {
+          q: "What is the difference between a covalent bond and an ionic bond?",
+          options: [
+            "Covalent shares electrons, ionic transfers electrons",
+            "Covalent transfers electrons, ionic shares electrons",
+            "Both share protons",
+            "Both share neutrons"
+          ],
+          answer: 0
+        },
+        {
+          q: "Which is NOT one of the three main types of chemical reactions?",
+          options: ["Synthesis", "Decomposition", "Combustion", "Reflection"],
+          answer: 3
+        },
+        {
+          q: "What is chemical equilibrium?",
+          options: [
+            "When no reaction happens",
+            "When forward and backward reactions happen at the same rate",
+            "When only products are present",
+            "When only reactants are present"
+          ],
+          answer: 1
+        },
+        {
+          q: "What is the process by which living organisms obtain energy from food?",
+          options: ["Photosynthesis", "Respiration", "Condensation", "Filtration"],
+          answer: 1
+        },
+        {
+          q: "What is the difference between a catalyst and an enzyme?",
+          options: [
+            "Enzymes are biological catalysts",
+            "Catalysts are always proteins",
+            "Enzymes never speed up reactions",
+            "They are exactly the same"
+          ],
+          answer: 0
+        },
+        {
+          q: "What are the two main parts of a solution?",
+          options: ["Acid and base", "Salt and water", "Solute and solvent", "Plasma and gas"],
+          answer: 2
+        }
+      ],
+      biology: [
+        {
+          q: "What is the function of the cell membrane?",
+          options: [
+            "To make food",
+            "To control what enters and leaves the cell",
+            "To store DNA",
+            "To produce energy only"
+          ],
+          answer: 1
+        },
+        {
+          q: "What is the process by which plants make their food?",
+          options: ["Respiration", "Transpiration", "Photosynthesis", "Digestion"],
+          answer: 2
+        },
+        {
+          q: "What is the basic structure of DNA?",
+          options: ["Single helix", "Double helix", "Triple helix", "Straight line"],
+          answer: 1
+        },
+        {
+          q: "Which cell structure is known as the 'powerhouse of the cell'?",
+          options: ["Nucleus", "Mitochondrion", "Ribosome", "Chloroplast"],
+          answer: 1
+        },
+        {
+          q: "Which organ in the human body is responsible for pumping blood?",
+          options: ["Lungs", "Brain", "Heart", "Liver"],
+          answer: 2
+        },
+        {
+          q: "What type of blood vessels carry blood away from the heart?",
+          options: ["Veins", "Arteries", "Capillaries", "Nerves"],
+          answer: 1
+        },
+        {
+          q: "Which part of the plant absorbs water and minerals from the soil?",
+          options: ["Leaves", "Roots", "Stem", "Flower"],
+          answer: 1
+        },
+        {
+          q: "What is the basic unit of life?",
+          options: ["Organ", "Tissue", "Cell", "Organ system"],
+          answer: 2
+        },
+        {
+          q: "Which gas do humans need to breathe in to survive?",
+          options: ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"],
+          answer: 1
+        },
+        {
+          q: "Which system of the body breaks down food into nutrients?",
+          options: ["Digestive system", "Respiratory system", "Circulatory system", "Nervous system"],
+          answer: 0
+        }
+      ]
+    };
+
+    // Offline dictionary (simple)
+    const dictionary = {
+      atom: "The smallest unit of an element that still has the properties of that element.",
+      force: "A push or pull on an object that can change its motion.",
+      speed: "How fast something moves; distance divided by time.",
+      photosynthesis: "The process by which green plants make their own food using sunlight, water and carbon dioxide.",
+      cell: "The basic unit of life; the smallest unit that can carry out life processes.",
+      energy: "The ability to do work or cause change.",
+      gravity: "A force that pulls objects with mass towards each other.",
+      reaction: "A process in which substances change to form new substances.",
+      equilibrium: "A balance situation where forward and reverse processes happen at the same rate.",
+      catalyst: "A substance that speeds up a chemical reaction without being used up."
+    };
+
+    // Global state
+    let currentSubject = "physics";
+    let currentUser = null;
+    let corrections = []; // store last failed questions + answers
+
+    // --------------- WELCOME & SIGN-IN ------------------
+    const welcomeScreen = document.getElementById("welcome-screen");
+    const signinScreen = document.getElementById("signin-screen");
+    const appScreen = document.getElementById("app");
+
+    document.getElementById("get-started-btn").addEventListener("click", () => {
+      welcomeScreen.classList.add("hidden");
+      signinScreen.classList.remove("hidden");
+    });
+
+    document.getElementById("signin-btn").addEventListener("click", () => {
+      const name = document.getElementById("student-name").value.trim();
+      const studentClass = document.getElementById("student-class").value.trim();
+      const email = document.getElementById("student-email").value.trim();
+      const password = document.getElementById("student-password").value.trim();
+      const errorDiv = document.getElementById("signin-error");
+
+      if (!name || !studentClass || !email || !password) {
+        errorDiv.textContent = "Please fill all fields (name, class, email, password).";
+        return;
+      }
+      errorDiv.textContent = "";
+
+      currentUser = { name, studentClass, email };
+      document.getElementById("student-info").textContent =
+        `Signed in as ${name} (${studentClass}) · Offline mode`;
+
+      signinScreen.classList.add("hidden");
+      appScreen.classList.remove("hidden");
+
+      renderQuiz(currentSubject);
+      loadLeaderboard();
+      loadCorrectionsFromStorage();
+    });
+
+    // --------------- QUIZ RENDERING ------------------
+    function renderQuiz(subjectKey) {
+      const quizData = quizzes[subjectKey];
+      const container = document.getElementById("quiz-container");
+      const title = document.getElementById("subject-title");
+
+      currentSubject = subjectKey;
+
+      if (subjectKey === "physics") title.textContent = "Physics Quiz";
+      if (subjectKey === "chemistry") title.textContent = "Chemistry Quiz";
+      if (subjectKey === "biology") title.textContent = "Biology Quiz";
+
+      container.innerHTML = "";
+
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr>
+          <th style="width:5%;">#</th>
+          <th class="question-cell">Question</th>
+          <th>Options</th>
+        </tr>
+      `;
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+
+      quizData.forEach((item, index) => {
+        const tr = document.createElement("tr");
+        const qNum = index + 1;
+
+        const tdNum = document.createElement("td");
+        tdNum.textContent = qNum;
+
+        const tdQ = document.createElement("td");
+        tdQ.className = "question-cell";
+        tdQ.textContent = item.q;
+
+        const tdOptions = document.createElement("td");
+        tdOptions.className = "options-cell";
+
+        const ul = document.createElement("ul");
+        item.options.forEach((opt, optIndex) => {
+          const li = document.createElement("li");
+          const id = `${subjectKey}-q${qNum}-opt${optIndex}`;
+
+          li.innerHTML = `
+            <label for="${id}">
+              <input type="radio" name="${subjectKey}-q${qNum}" id="${id}" value="${optIndex}" />
+              ${opt}
+            </label>
+          `;
+          ul.appendChild(li);
+        });
+
+        tdOptions.appendChild(ul);
+        tr.appendChild(tdNum);
+        tr.appendChild(tdQ);
+        tr.appendChild(tdOptions);
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      container.appendChild(table);
+
+      document.getElementById("score-output").innerHTML = "";
+    }
+
+    // Category buttons
+    document.querySelectorAll(".category-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const subj = btn.getAttribute("data-subject");
+        renderQuiz(subj);
+      });
+    });
+
+    // Submit quiz
+    document.getElementById("submit-quiz-btn").addEventListener("click", () => {
+      const quizData = quizzes[currentSubject];
+      let score = 0;
+      const failedQuestions = [];
+
+      quizData.forEach((item, index) => {
+        const qNum = index + 1;
+        const selected = document.querySelector(`input[name="${currentSubject}-q${qNum}"]:checked`);
+        const chosenIndex = selected ? parseInt(selected.value, 10) : null;
+        if (chosenIndex === item.answer) {
+          score++;
+        } else {
+          failedQuestions.push({
+            subject: currentSubject,
+            number: qNum,
+            question: item.q,
+            correctAnswerText: item.options[item.answer]
+          });
+        }
+      });
+
+      const scoreDiv = document.getElementById("score-output");
+      scoreDiv.innerHTML = "";
+
+      const box = document.createElement("div");
+      box.className = "score-box";
+
+      const resultLines = [];
+      resultLines.push(`You scored <strong>${score} / 10</strong> in ${currentSubject.toUpperCase()}.`);
+
+      if (score >= 5) {
+        box.classList.add("win");
+        resultLines.push("Result: <strong>WIN ✅</strong> (You passed over 5/10).");
+      } else {
+        box.classList.add("lose");
+        resultLines.push("Result: <strong>LOSE ❌</strong> (Below 5/10).");
+      }
+
+      if (failedQuestions.length > 0) {
+        resultLines.push(`You missed ${failedQuestions.length} question(s). Check the Correction / Solution Sheet above.`);
+      } else {
+        resultLines.push("Perfect! You got all questions correct. 🎉");
+      }
+
+      box.innerHTML = resultLines.join("<br>");
+      scoreDiv.appendChild(box);
+
+      // Save to leaderboard
+      if (currentUser) {
+        saveScoreToLeaderboard({
+          name: currentUser.name,
+          studentClass: currentUser.studentClass,
+          subject: currentSubject,
+          score
+        });
+        loadLeaderboard();
+      }
+
+      // Save corrections
+      corrections = failedQuestions;
+      saveCorrectionsToStorage();
+      renderCorrections();
+    });
+
+    // --------------- CORRECTION SHEET ------------------
+    function renderCorrections() {
+      const listDiv = document.getElementById("correction-list");
+      listDiv.innerHTML = "";
+
+      if (!corrections || corrections.length === 0) {
+        listDiv.innerHTML = `<p class="correction-note">No corrections yet. Take a quiz and any failed questions will appear here with the correct answers.</p>`;
+        return;
+      }
+
+      corrections.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "correction-item";
+        div.innerHTML = `
+          <div class="correction-question">
+            [${item.subject.toUpperCase()} Q${item.number}] ${item.question}
+          </div>
+          <div class="correction-answer">
+            Correct Answer: ${item.correctAnswerText}
+          </div>
+        `;
+        listDiv.appendChild(div);
+      });
+
+      const note = document.createElement("div");
+      note.className = "correction-note";
+      note.textContent = "These are from your last submitted quiz. Take another quiz to update this sheet.";
+      listDiv.appendChild(note);
+    }
+
+    function saveCorrectionsToStorage() {
+      try {
+        localStorage.setItem("testhub_corrections", JSON.stringify(corrections));
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function loadCorrectionsFromStorage() {
+      try {
+        const data = localStorage.getItem("testhub_corrections");
+        if (data) {
+          corrections = JSON.parse(data);
+          renderCorrections();
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    // --------------- LEADERBOARD (localStorage) ------------------
+    function saveScoreToLeaderboard(entry) {
+      try {
+        const existing = JSON.parse(localStorage.getItem("testhub_leaderboard") || "[]");
+        existing.push({ ...entry, date: new Date().toISOString() });
+        existing.sort((a, b) => b.score - a.score);
+        const trimmed = existing.slice(0, 20);
+        localStorage.setItem("testhub_leaderboard", JSON.stringify(trimmed));
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function loadLeaderboard() {
+      const tbody = document.getElementById("leaderboard-body");
+      tbody.innerHTML = "";
+      try {
+        const data = JSON.parse(localStorage.getItem("testhub_leaderboard") || "[]");
+        if (data.length === 0) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 5;
+          td.textContent = "No scores saved yet. Take a quiz to appear here.";
+          tbody.appendChild(tr);
+          tr.appendChild(td);
+          return;
+        }
+
+        data.forEach((item, index) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${item.name}</td>
+            <td>${item.studentClass}</td>
+            <td>${item.subject.toUpperCase()}</td>
+            <td>${item.score}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 5;
+        td.textContent = "Error loading leaderboard.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      }
+    }
+
+    // --------------- NAVIGATION SECTIONS ------------------
+    document.querySelectorAll(".top-nav button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".top-nav button").forEach(b => b.classList.remove("active-nav"));
+        btn.classList.add("active-nav");
+
+        const sectionId = btn.getAttribute("data-section");
+        ["quiz-section", "leaderboard-section", "calculator-section", "dictionary-section", "music-section"].forEach(id => {
+          const sec = document.getElementById(id);
+          if (id === sectionId) {
+            sec.classList.remove("hidden");
+          } else {
+            sec.classList.add("hidden");
+          }
+        });
+      });
+    });
+
+    // --------------- CALCULATOR ------------------
+    const calcDisplay = document.getElementById("calc-display");
+    let calcExpression = "";
+
+    document.querySelectorAll(".calc-buttons button").forEach(btn => {
+      const val = btn.getAttribute("data-val");
+      if (val) {
+        btn.addEventListener("click", () => {
+          calcExpression += val;
+          calcDisplay.value = calcExpression;
+        });
+      }
+    });
+
+    document.getElementById("calc-clear").addEventListener("click", () => {
+      calcExpression = "";
+      calcDisplay.value = "";
+    });
+
+    document.getElementById("calc-equal").addEventListener("click", () => {
+      try {
+        // very simple calculator (not safe for arbitrary input but okay for this offline demo)
+        const result = eval(calcExpression || "0");
+        calcDisplay.value = result;
+        calcExpression = "" + result;
+      } catch (e) {
+        calcDisplay.value = "Error";
+        calcExpression = "";
+      }
+    });
+
+    // --------------- DICTIONARY ------------------
+    document.getElementById("dictionary-search").addEventListener("click", () => {
+      const word = document.getElementById("dictionary-input").value.trim().toLowerCase();
+      const output = document.getElementById("dictionary-result");
+
+      if (!word) {
+        output.textContent = "Please type a science word.";
+        return;
+      }
+
+      if (dictionary[word]) {
+        output.innerHTML = `<strong>${word}:</strong> ${dictionary[word]}`;
+      } else {
+        output.textContent = "Word not found in this small offline dictionary.";
+      }
+    });
+
+    // --------------- MUSIC (keeps playing) ------------------
+    const bgMusic = document.getElementById("bg-music");
+    document.getElementById("play-music").addEventListener("click", () => {
+      bgMusic.play();
+    });
+    document.getElementById("pause-music").addEventListener("click", () => {
+      bgMusic.pause();
+    });
+  </script>
+</body>
+</html>
